@@ -15,10 +15,10 @@ YELLOW= (255,255,0)
 
 # Rainbow theme
 rainbow_colors = [(148,0,211),(75,0,130),(0,0,255),(0,255,0),(255,255,0),(255,127,0),(255,0,0)]
-theme = "pink"  # Options: pink, green, blue, rainbow
+theme = "pink" 
 
 # Snake setup 
-snake_body = [[100, 40], [80, 40], [60, 40]]  # Changed from Y=50 to Y=40 (grid-aligned)
+snake_body = [[100, 40], [80, 40], [60, 40]] 
 direction = "RIGHT"
 
 def generate_safe_position(occupied_positions):

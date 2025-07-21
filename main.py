@@ -1,6 +1,5 @@
 import pygame, random, sys
 
-# Initialize Pygame
 pygame.init()
 width, height = 600, 400
 screen = pygame.display.set_mode((width, height))
@@ -18,7 +17,7 @@ YELLOW= (255,255,0)
 rainbow_colors = [(148,0,211),(75,0,130),(0,0,255),(0,255,0),(255,255,0),(255,127,0),(255,0,0)]
 theme = "pink"  # Options: pink, green, blue, rainbow
 
-# Snake setup - FIXED: Properly grid-aligned positions
+# Snake setup 
 snake_body = [[100, 40], [80, 40], [60, 40]]  # Changed from Y=50 to Y=40 (grid-aligned)
 direction = "RIGHT"
 
@@ -29,7 +28,7 @@ def generate_safe_position(occupied_positions):
         if pos not in occupied_positions:
             return pos
 
-# Generate initial positions safely - FIXED: Avoid overlaps
+# Generate initial positions safely 
 occupied = snake_body.copy()
 apple_pos = generate_safe_position(occupied)
 occupied.append(apple_pos)
@@ -37,12 +36,11 @@ banana_pos = generate_safe_position(occupied)
 occupied.append(banana_pos)
 bomb_pos = generate_safe_position(occupied)
 
-# Load assets (with .jpg images)
+# Load assets
 try:
     apple_img  = pygame.transform.scale(pygame.image.load("assets/apple.jpg").convert_alpha(), (block, block))
     banana_img = pygame.transform.scale(pygame.image.load("assets/banana.jpg").convert_alpha(), (block, block))
     bomb_img   = pygame.transform.scale(pygame.image.load("assets/bomb.jpg").convert_alpha(), (block, block))
-    # Load maze background image
     maze_background = pygame.transform.scale(pygame.image.load("assets/maze_background.jpg").convert(), (width, height))
 except pygame.error as e:
     print(f"Error loading image: {e}")
@@ -56,7 +54,7 @@ except pygame.error as e:
     maze_background = pygame.Surface((width, height))
     maze_background.fill((50, 50, 50))  # Dark gray background
 
-# Load sounds (.mp3)
+# Load sounds
 try:
     pygame.mixer.init()
     pygame.mixer.music.load("assets/background.mp3")
@@ -97,7 +95,7 @@ while True:
         elif direction == "LEFT": head_x -= block
         elif direction == "RIGHT": head_x += block
 
-        # Wrap around screen edges - FIXED: Ensure grid alignment
+        # Wrap around screen edges 
         head_x = (head_x % width)
         head_y = (head_y % height)
 
@@ -110,7 +108,7 @@ while True:
             
         snake_body.insert(0, new_head)
 
-        # Check fruit collisions - FIXED: Proper collision detection
+        # Check fruit collisions 
         ate_apple = (head_x == apple_pos[0] and head_y == apple_pos[1])
         ate_banana = (head_x == banana_pos[0] and head_y == banana_pos[1])
         
@@ -134,9 +132,8 @@ while True:
             occupied.extend([apple_pos, banana_pos])
             bomb_pos = generate_safe_position(occupied)
             
-            # Don't remove tail - let snake grow!
         else:
-            # Remove tail only if no fruit was eaten
+           
             snake_body.pop()
 
         # Check bomb collision
@@ -192,15 +189,15 @@ while True:
                         sys.exit()
     else:
         # Draw everything in the correct order
-        # 1. Background first
+     
         screen.blit(maze_background, (0, 0))
         
-        # 2. Draw fruits and bomb
+      
         screen.blit(apple_img, apple_pos)
         screen.blit(banana_img, banana_pos)
         screen.blit(bomb_img, bomb_pos)
 
-        # 3. Draw the snake on top
+       
         for i, pos in enumerate(snake_body):
             if theme == "rainbow":
                 color = rainbow_colors[i % len(rainbow_colors)]
@@ -212,10 +209,10 @@ while True:
                 color = (255,105,180)  # Pink
             
             pygame.draw.rect(screen, color, (pos[0], pos[1], block, block))
-            # Add border for better visibility
+           
             pygame.draw.rect(screen, BLACK, (pos[0], pos[1], block, block), 2)
 
-        # 4. Draw score and instructions
+     
         font = pygame.font.SysFont(None, 36)
         small_font = pygame.font.SysFont(None, 24)
         
